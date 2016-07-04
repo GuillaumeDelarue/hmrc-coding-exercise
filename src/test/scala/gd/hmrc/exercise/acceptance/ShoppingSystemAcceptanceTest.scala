@@ -6,9 +6,9 @@ class ShoppingSystemAcceptanceTest extends JunitFunSuite {
   private val shoppingSystem = new ShoppingSystem()
 
   test("acceptance criteria") {
-    shoppingSystem.calculateTotalCost("Apple") must be(0.60)
-    shoppingSystem.calculateTotalCost("Orange") must be(0.25)
-    shoppingSystem.calculateTotalCost("Apple", "Apple", "Orange", "Apple") must be(2.05)
+    shoppingSystem.calculateTotalCost("Apple") must be(APPLE.price)
+    shoppingSystem.calculateTotalCost("Orange") must be(ORANGE.price)
+    shoppingSystem.calculateTotalCost("Apple", "Orange") must be(APPLE.price + ORANGE.price)
   }
 
   test("throws exception for unknown items") {
