@@ -19,7 +19,7 @@ class ShoppingSystemAcceptanceTest extends JunitFunSuite {
     expectedException.getMessage must be(expectedMessage)
   }
 
-  test("first promotion: buy one apple get one free") {
+  test("first special offer: buy one apple get one free") {
     shoppingSystem.calculateTotalCost("Apple", "Apple") must be(APPLE.price)
     shoppingSystem.calculateTotalCost("Apple", "Apple", "Apple") must be(2 * APPLE.price)
     shoppingSystem.calculateTotalCost("Apple", "Apple", "Apple", "Apple") must be(2 * APPLE.price)
@@ -29,7 +29,7 @@ class ShoppingSystemAcceptanceTest extends JunitFunSuite {
     shoppingSystem.calculateTotalCost("Apple", "Orange", "Apple", "Orange") must be(APPLE.price + 2 * ORANGE.price)
   }
 
-  test("second promotion: three oranges for the price of two") {
+  test("second special offer: three oranges for the price of two") {
     shoppingSystem.calculateTotalCost("Orange", "Orange") must be(2 * ORANGE.price)
     shoppingSystem.calculateTotalCost("Orange", "Orange", "Orange") must be(2 * ORANGE.price)
     shoppingSystem.calculateTotalCost("Orange", "Orange", "Orange", "Orange") must be(3 * ORANGE.price)

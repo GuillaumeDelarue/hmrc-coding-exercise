@@ -3,22 +3,15 @@ package gd.hmrc.exercise
 class ShoppingSystem {
 
   def calculateTotalCost(items: String*): Double = items
-    .groupBy(findItem)
-    .foldLeft(0.0)((price, item) => price + calculatePriceFor(item._1, item._2.size))
+    .groupBy(Items.findItem)
+    .foldLeft(0.0)((price, itemAndCount) => {
+      val (item, allOriginalItems) = itemAndCount
+      price + applySpecialOfferIfApplicable(allOriginalItems.size, item.price, item.specialOffer)
+    })
 
-  private def calculatePriceFor(item: Item, count: Int): Double = item match {
-    case APPLE => applesPromotion(count, item.price)
-    case ORANGE => orangesPromotion(count, item.price)
-  }
-
-  private def applesPromotion(count: Int, unitPrice: Double) = ((count + 1) / 2) * unitPrice
-
-  private def orangesPromotion(count: Int, unitPrice: Double) = ((count + 1) * 2 / 3) * unitPrice
-
-  private def findItem(asString: String): Item = asString match {
-    case "Apple" => APPLE
-    case "Orange" => ORANGE
-    case unknown => throw new IllegalArgumentException(s"'$unknown' is an unknown item")
+  private def applySpecialOfferIfApplicable(count: Int, unitPrice: Double, specialOffer: Option[SpecialOffer]): Double = specialOffer match {
+    case Some(offer) => (count + 1) * offer.numberPaid / offer.numberBought * unitPrice
+    case None => count * unitPrice
   }
 }
 
